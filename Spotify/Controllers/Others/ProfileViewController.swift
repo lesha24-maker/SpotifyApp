@@ -8,22 +8,33 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        title = "Profile"
+        fetchProfile()
+        view.backgroundColor = .systemBackground
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func fetchProfile() {
+        APICaller.shared.getCurrentUserProfile { result in
+            DispatchQueue.main.async {
+                self.failedToGetProfile()
+            }
+        }
     }
-    */
-
+    
+    private func updateUI(with model: UserProfile) {
+        
+    }
+    
+    private func failedToGetProfile() {
+        let label = UILabel(frame: .zero)
+        label.text = "Failed to load profile"
+        label.sizeToFit()
+        label.textColor = .secondaryLabel
+        view.addSubview(label)
+        label.center = view.center
+    }
 }
